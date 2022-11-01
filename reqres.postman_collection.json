@@ -1,0 +1,334 @@
+{
+	"info": {
+		"_postman_id": "56af9307-b2c7-4466-a0db-d269bfefea76",
+		"name": "reqres",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24079351"
+	},
+	"item": [
+		{
+			"name": "ex.1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Ex_1:\r",
+							"\r",
+							"// METHOD: GET\r",
+							"\r",
+							"// Отправить запрос с endpoint: /api/users?page=2\r",
+							"\r",
+							"// 1.Спарсить response\r",
+							"\r",
+							"// 2.Спарсить request\r",
+							"\r",
+							"// 3.Проверить, что ключ “page” имеет значение «2»\r",
+							"\r",
+							"// 4.Проверить, что в ответе есть ключ ”data”\r",
+							"\r",
+							"// 5.Проверить, что в ответе есть ключ ”support”\r",
+							"\r",
+							"// 6.Проверить, что статус-код 200\r",
+							"// если создал переменную name в откружении то обратится к ней (к значению) можно environment.name(page,age a s.w.)\r",
+							"\r",
+							"var req = pm.request.url.query.toObject();\r",
+							"var resp = pm.response.json();\r",
+							"\r",
+							"console.log(resp.page);\r",
+							"pm.environment.set('page',resp.page)\r",
+							"    console.log(\"Моё значение page:\", environment.page)\r",
+							"\r",
+							"\r",
+							"pm.test (\"CheckPage\", function () {\r",
+							"    pm.expect(resp.page).to.eql(2);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"CheckData\", function () {\r",
+							"    pm.expect(resp).ownProperty(\"data\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"CheckSupport\", function () {\r",
+							"    pm.expect(resp).to.have.property(\"support\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/users?page=2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ex.2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Ex_2:\r",
+							"\r",
+							"// METHOD: GET\r",
+							"\r",
+							"// Отправить запрос с endpoint: /api/users/2\r",
+							"\r",
+							"// 1.Спарсить response\r",
+							"\r",
+							"// 2.Спарсить request\r",
+							"\r",
+							"// 3.Проверить, что существует ключ ”data”\r",
+							"\r",
+							"// 4.Проверить, что существует ключ “id”\r",
+							"\r",
+							"// 5.Проверить, что у ключа “id” значение «2»\r",
+							"\r",
+							"// 6.Проверить, что статус-код 200\r",
+							"\r",
+							"var req = pm.request.url.query.toObject();\r",
+							"var resp = pm.response.json();\r",
+							"\r",
+							"console.log(resp.id);\r",
+							"\r",
+							"pm.test(\"CheckData\", function () {\r",
+							"    pm.expect(resp).ownProperty(\"data\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"CheckId\", function () { \r",
+							"    pm.expect(resp.id).to.eql(req.id);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"CheckId\", function (){\r",
+							"      pm.expect(resp).to.eql(2);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{url}}/api/users/2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ex.3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// METHOD: POST\r",
+							"\r",
+							"// Заполните свои данные в body(raw-выбрать формат JSON) { \"name\": \"Ваше_имя\", \"job\": \"Ваша_работа\" }\r",
+							"\r",
+							"// Отправить запрос с endpoint: /api/users\r",
+							"\r",
+							"// 1.Спарсить response\r",
+							"\r",
+							"// 2.Спарсить request\r",
+							"\r",
+							"// 3.Проверить что “name” с request соответствует “name” с response (можно не использовать переменные, которыми вы спарсили request и response, а ввести значение напрямую)\r",
+							"\r",
+							"// 4.Добавить значение ключа “name” в окружение(Environment),- переменную в окружении назвать “name”\r",
+							"\r",
+							"// 5.Проверить, что в ключе “job” значение имеет тип данных “string”\r",
+							"\r",
+							"// 6.Проверить что “job” с request соответствует “job” с response (можно не использовать переменные, которыми вы спарсили request и response, а ввести значение напрямую)\r",
+							"\r",
+							"// 7.Проверить, что существует ключ “id”\r",
+							"\r",
+							"// 8.Проверить, что статус код 201\r",
+							"\r",
+							"// Ex_4: (Обратите внимание на method с которым нужно обратиться к endpoint’у)\r",
+							"\r",
+							"\r",
+							"var req = JSON.parse(request.data);\r",
+							"var resp = pm.response.json();\r",
+							"\r",
+							"pm.test (\"CheckName\", function () {\r",
+							"    pm.expect(resp.name).to.eql(req.name)\r",
+							"})\r",
+							"\r",
+							"pm.environment.set('name',resp.name)\r",
+							"    console.log(\"My name is:\", environment.name)\r",
+							"\r",
+							"pm.test (\"CheckJob\", function () {\r",
+							"    pm.expect(resp.job).to.a(\"String\")\r",
+							"})\r",
+							"\r",
+							"pm.test (\"CheckJob2\", function () {\r",
+							"    pm.expect(resp.job).to.eql(req.job)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"CheckId\", function () {\r",
+							"    pm.expect(resp).ownProperty(\"id\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\": \"Alex\", \"job\": \"Jobless\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ex.4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// METHOD: PUT\r",
+							"\r",
+							"// Заполните свои данные в body(raw-выбрать формат JSON) { \"name\": \"Ваше_имя\", \"job\": \"Ваша_работа\" }\r",
+							"\r",
+							"// Отправить запрос с endpoint: /api/users\r",
+							"\r",
+							"// 1.Спарсить response\r",
+							"\r",
+							"// 2.Спарсить request\r",
+							"\r",
+							"// 3.Проверить что name с request соответствует name с response (не вводить значение напрямую, а используя переменные в которые вы парсили request и response)\r",
+							"\r",
+							"// 4.Проверить что job с request соответствует job с response (не вводить значение напрямую, а используя переменные в которые вы парсили request и response)\r",
+							"\r",
+							"// 5.Проверить, что статус-код 200\r",
+							"\r",
+							"// 6*.Проверить, что значение переменной “name” с Environment(Окружения) соответствует значению ключа “name”, которое приходит от сервера(response)\r",
+							"\r",
+							"var req = JSON.parse(request.data);\r",
+							"var resp = pm.response.json();\r",
+							"\r",
+							"pm.test (\"CheckName\", function () {\r",
+							"    pm.expect(resp.name).to.eql(req.name)\r",
+							"})\r",
+							"\r",
+							"pm.test (\"CheckJob\", function () {\r",
+							"    pm.expect(resp.job).to.eql(req.job)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test (\"CheckName2\", function () {\r",
+							"    pm.expect(resp.name).to.eql(pm.environment(name))\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"morpheus\",\r\n    \"job\": \"zion resident\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
